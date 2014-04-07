@@ -20,8 +20,26 @@
 
 <!-- Liste des clients -->
 <ul>
+	<input type="text" placeholder="Filtrer">
+	<select>
+		<option value="">Plus ancien</option>
+	</select>
+	
 	<c:forEach items="${clients}" var="client">
 		<li>${client.nom} ${client.prenom}</li>
 	</c:forEach>
 </ul>
+
+<!-- Détails des clients (panneaux affichés dynamiquement) -->
+<section>
+	<h3>Civilité NOM Prénom</h3>
+	<ul>
+		<li>Date de naissance</li>
+		<li>Adresse</li>
+		<li>Téléphone</li>
+		<li>E-mail</li>
+	</ul>
+</section>
+
+
 <%@include file="WEB-INF/jspf/footer.jspf" %>
