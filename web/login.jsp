@@ -3,33 +3,29 @@
     Created on : Apr 7, 2014, 2:55:41 PM
     Author     : Merlin
 --%>
+<%
+	request.setAttribute("title", "Identification employÈ");
+%>
+<%@include file="WEB-INF/jspf/header.jspf" %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Predict'IF | Identification employ√©</title>
-    </head>
-    <body>
-        <h1>Predict'IF | Identification employ√©</h1>
-		
-		<p>
-			<%= request.getAttribute("message") %>
-		</p>
-		
-		<form action="/PredictIF/login" method="post">
-			<input type="text" name="username" placeholder="Nom d'utilisateur">
-			<input type="password" name="password" placeholder="password">
-			
-			<span class="erreur"><%= request.getAttribute("erreur") %></span>
-			
-			<input type="submit" value="Connexion">
-		</form>
-    </body>
-</html>
+<h2>Identification employÈ</h2>
+
+<p>
+	<%= request.getAttribute("message") %>
+</p>
+
+<form action="/PredictIF/login" method="post">
+	<input type="text" name="username" placeholder="Nom d'utilisateur">
+	<input type="password" name="password" placeholder="password">
+
+	<span class="erreur"><%= request.getAttribute("erreur") %></span>
+
+	<input type="submit" value="Connexion">
+</form>
 
 <%
 // Nettoyer les erreurs
 request.setAttribute("erreur", "");
 %>
+
+<%@include file="WEB-INF/jspf/footer.jspf" %>
