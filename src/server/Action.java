@@ -1,8 +1,12 @@
 
 package server;
 
+import dao.ClientUtil;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import metier.modele.Client;
 import metier.modele.Employe;
 
 /**
@@ -38,4 +42,14 @@ class LoginHandler implements Action {
 			request.setAttribute("erreur", "Mot de passe invalide.");
 		}
 	}
+}
+
+class ClientLister implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request) {
+		List<Client> clients = ClientUtil.getListClient();
+		request.setAttribute("clients", clients);
+	}
+	
 }

@@ -1,6 +1,7 @@
 
 package server;
 
+import dao.JpaUtil;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +29,23 @@ public class ActionServlet extends HttpServlet {
 		routes.put("/index", "index.jsp");
 		routes.put("/hello", "hello.jsp");
 		routes.put("/login", "login.jsp");
+		routes.put("/clients", "clients.jsp");
 		
 		actions = new HashMap<String, Action>();
 		actions.put("/login", new LoginHandler());
+		actions.put("/clients", new ClientLister());
+	}
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		JpaUtil.init();
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		JpaUtil.destroy();
 	}
 	
 	/**

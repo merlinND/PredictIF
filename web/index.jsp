@@ -22,14 +22,7 @@
     <body>
         <h1>Hello World!</h1>
 		<p>
-			<%
-				
-				List<Client> clients = ClientUtil.getListClient();
-				out.println("Liste des clients :");
-				for (Client c : clients)
-					out.println(c.getNom() + "<br/>");
-				
-			%>
+			Please <a href="/PredictIF/login">login</a>.
 		</p>
     </body>
 </html>
