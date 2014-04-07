@@ -29,10 +29,12 @@ public class ActionServlet extends HttpServlet {
 		routes.put("/index", "index.jsp");
 		routes.put("/hello", "hello.jsp");
 		routes.put("/login", "login.jsp");
+		routes.put("/logout", "login.jsp");
 		routes.put("/clients", "clients.jsp");
 		
 		actions = new HashMap<String, Action>();
 		actions.put("/login", new LoginHandler());
+		actions.put("/logout", new LogoutHandler());
 		actions.put("/clients", new ClientLister());
 	}
 

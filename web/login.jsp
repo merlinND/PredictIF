@@ -14,6 +14,10 @@
     <body>
         <h1>Predict'IF | Identification employé</h1>
 		
+		<p>
+			<%= request.getAttribute("message") %>
+		</p>
+		
 		<form action="/PredictIF/login" method="post">
 			<input type="text" name="username" placeholder="Nom d'utilisateur">
 			<input type="password" name="password" placeholder="password">

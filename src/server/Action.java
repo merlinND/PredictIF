@@ -2,7 +2,6 @@
 package server;
 
 import dao.ClientUtil;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,6 +26,7 @@ class LoginHandler implements Action {
 		HttpSession session = request.getSession();
 		session.setAttribute("employe", null);
 		request.setAttribute("erreur", "");
+		request.setAttribute("message", "");
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -43,6 +43,18 @@ class LoginHandler implements Action {
 		}
 	}
 }
+
+class LogoutHandler implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute("employe", null);
+		request.setAttribute("erreur", "");
+		request.setAttribute("message", "Vous avez été déconnecté avec succès.");
+	}
+}
+
 
 class ClientLister implements Action {
 
