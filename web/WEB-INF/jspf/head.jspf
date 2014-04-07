@@ -1,0 +1,15 @@
+<%
+	String title = (String)request.getAttribute("title");
+	if (title == null)
+		title = "";
+	else
+		title = " | " + title;
+%>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Predict'IF<%=title%></title>
+    </head>
+    <body>

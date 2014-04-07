@@ -1,0 +1,23 @@
+<%@page import="metier.modele.Employe"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	Employe employe = (Employe)request.getSession().getAttribute("employe");
+%>
+
+<%@include file="head.jspf" %>
+
+<!-- Header -->
+<h1><a href="/PredictIF/">My common header</a></h1>
+
+<!-- Menu -->
+<c:choose>
+	<c:when test="${employe == null}">
+		<a href="/PredictIF/login">Connexion</a>
+	</c:when>
+	<c:otherwise>
+		<p>
+			Bienvenue, ${employe.nom}&nbsp;|&nbsp;
+			<a href="/PredictIF/logout"><button>Déconnexion</button></a>
+		</p>
+	</c:otherwise>
+</c:choose>
