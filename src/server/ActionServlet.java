@@ -3,6 +3,8 @@ package server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,10 +16,18 @@ import javax.servlet.http.HttpSession;
  *
  * @author Merlin
  */
-@WebServlet(name = "ActionServlet", urlPatterns = {"/ActionServlet"})
+@WebServlet(name = "ActionServlet", urlPatterns = {"/"})
 public class ActionServlet extends HttpServlet {
 
 	public final String URL_PREFIX = "/PredictIF";
+	public Map<String, String> routes;
+
+	public ActionServlet() {
+		routes = new HashMap<String, String>();
+		routes.put("/", "index.jsp");
+		routes.put("/index", "index.jsp");
+		routes.put("/hello", "hello.jsp");
+	}
 	
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,23 +40,22 @@ public class ActionServlet extends HttpServlet {
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
 		// Set encoding once and for all
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();
 		
+		// Extract session and request URI
 		HttpSession session = request.getSession();
 		String uri = request.getRequestURI();
 		uri = uri.substring(uri.indexOf(URL_PREFIX) + URL_PREFIX.length());
 		
-		out.write("Currently on " + uri);
-		
-		if ("/ActionServlet".equals(uri)) {
-			out.write("\nIndex");
+		// Route request
+		if (routes.containsKey(uri)) {
+			request.getRequestDispatcher(routes.get(uri)).forward(request, response);
 		}
-		
-		out.close();
+		else {
+			response.sendError(404);
+		}
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
