@@ -2,7 +2,6 @@
 package server;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -21,12 +20,17 @@ public class ActionServlet extends HttpServlet {
 
 	public final String URL_PREFIX = "/PredictIF";
 	public Map<String, String> routes;
+	public Map<String, Action> actions;
 
 	public ActionServlet() {
 		routes = new HashMap<String, String>();
 		routes.put("/", "index.jsp");
 		routes.put("/index", "index.jsp");
 		routes.put("/hello", "hello.jsp");
+		routes.put("/login", "login.jsp");
+		
+		actions = new HashMap<String, Action>();
+		actions.put("/login", new LoginHandler());
 	}
 	
 	/**
@@ -49,7 +53,12 @@ public class ActionServlet extends HttpServlet {
 		String uri = request.getRequestURI();
 		uri = uri.substring(uri.indexOf(URL_PREFIX) + URL_PREFIX.length());
 		
-		// Route request
+		// Execute action if existing
+		if (actions.containsKey(uri)) {
+			actions.get(uri).execute(request);
+		}
+		
+		// Forward to view
 		if (routes.containsKey(uri)) {
 			request.getRequestDispatcher(routes.get(uri)).forward(request, response);
 		}
