@@ -11,5 +11,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Predict'IF<%=title%></title>
+		
+		<!-- Static -->
+		<link type="text/css" rel="stylesheet" href="/PredictIF/static/screen.css">
     </head>
     <body>
