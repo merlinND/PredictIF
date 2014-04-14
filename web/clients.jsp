@@ -3,10 +3,11 @@
     Created on : Apr 7, 2014, 3:36:38 PM
     Author     : Merlin
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@page import="dao.ClientUtil"%>
 <%@page import="java.util.ArrayList"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="metier.modele.Client"%>
 <%@page import="java.util.List"%>
 
@@ -32,13 +33,18 @@
 
 <!-- Détails des clients (panneaux affichés dynamiquement) -->
 <section>
-	<h3>Civilité NOM Prénom</h3>
-	<ul>
-		<li>Date de naissance</li>
-		<li>Adresse</li>
-		<li>Téléphone</li>
-		<li>E-mail</li>
-	</ul>
+	<c:forEach items="${clients}" var="client">
+		<div id="client-${client.id}">
+			<h3>${client.civilite} ${client.prenom} ${client.nom}</h3>
+			<ul>
+				<li>Date de naissance : <fmt:formatDate value="${client.dateNaissance}" pattern="dd/MM/yyyy"/></li>
+				<li>Adresse : ${client.adresse}</li>
+				<li>Téléphone : ${client.telephone}</li>
+				<li>E-mail : ${client.email}</li>
+			</ul>
+			<a href="<%=request.getAttribute("URL_PREFIX")%>/horoscope?clientId=${client.id}"><button>Créer un horoscope</button></a>
+		</div>
+	</c:forEach>
 </section>
 
 

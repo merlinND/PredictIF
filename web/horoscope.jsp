@@ -24,14 +24,14 @@
 	<section>
 		<h3>Nouvel horoscope</h3>
 
-		<form>
+		<form action="<%=request.getAttribute("URL_PREFIX")%>/traitementHorosocope" method="post">
 			<label>Travail</label>
 			<label>Amour</label>
 			<label>Santé</label>
 			<label>Medium</label>
 
 			<input type="submit" value="Envoyer">
-			<button>Annuler</button>
+			<a href="<%=request.getAttribute("URL_PREFIX")%>/clients">Annuler</a>
 		</form>
 	</section>
 	

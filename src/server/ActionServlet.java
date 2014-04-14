@@ -16,21 +16,24 @@ import javax.servlet.http.HttpSession;
  *
  * @author Merlin
  */
-@WebServlet(name = "ActionServlet", urlPatterns = {"/"})
+@WebServlet(name = "ActionServlet", urlPatterns = {"/employe/*"})
 public class ActionServlet extends HttpServlet {
 
-	public final String URL_PREFIX = "/PredictIF";
+	public final String URL_PREFIX = "/PredictIF/employe";
+	public final String STATIC_PREFIX = URL_PREFIX + "/static";
+	
 	public Map<String, String> routes;
 	public Map<String, Action> actions;
 
 	public ActionServlet() {
 		routes = new HashMap<String, String>();
-		routes.put("", "index.jsp");
-		routes.put("/", "index.jsp");
-		routes.put("/index", "index.jsp");
-		routes.put("/login", "login.jsp");
-		routes.put("/logout", "login.jsp");
-		routes.put("/clients", "clients.jsp");
+		routes.put("", "../index.jsp");
+		routes.put("/", "../index.jsp");
+		routes.put("/index", "../index.jsp");
+		routes.put("/login", "../login.jsp");
+		routes.put("/logout", "../login.jsp");
+		routes.put("/clients", "../clients.jsp");
+		routes.put("/horoscope", "../horoscope.jsp");
 		
 		// TODO: require login on most pages
 		
@@ -63,13 +66,16 @@ public class ActionServlet extends HttpServlet {
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String uri = request.getRequestURI();
+
+		// Store useful constants
+		request.setAttribute("URL_PREFIX", URL_PREFIX);
 		// Set encoding once and for all
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
 		// Extract session and request URI
 		HttpSession session = request.getSession();
-		String uri = request.getRequestURI();
 		uri = uri.substring(uri.indexOf(URL_PREFIX) + URL_PREFIX.length());
 		
 		// Execute action if existing

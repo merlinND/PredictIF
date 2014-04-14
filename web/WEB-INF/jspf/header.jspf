@@ -7,17 +7,17 @@
 <%@include file="head.jspf" %>
 
 <!-- Header -->
-<h1><a href="/PredictIF/">Predict'IF</a></h1>
+<h1><a href="<%=request.getAttribute("URL_PREFIX")%>/">Predict'IF - Interface employé</a></h1>
 
 <!-- Menu -->
 <c:choose>
 	<c:when test="${employe == null}">
-		<a href="/PredictIF/login">Connexion</a>
+		<a href="<%=request.getAttribute("URL_PREFIX")%>/login">Connexion</a>
 	</c:when>
 	<c:otherwise>
 		<p>
 			Bienvenue, ${employe.nom}&nbsp;|&nbsp;
-			<a href="/PredictIF/logout"><button>Déconnexion</button></a>
+			<a href="<%=request.getAttribute("URL_PREFIX")%>/logout"><button>Déconnexion</button></a>
 		</p>
 	</c:otherwise>
 </c:choose>

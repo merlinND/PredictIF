@@ -14,7 +14,7 @@
 	<%= request.getAttribute("message") %>
 </p>
 
-<form action="/PredictIF/login" method="post">
+<form action="<%=request.getAttribute("URL_PREFIX")%>/login" method="post">
 	<input type="text" name="username" placeholder="Nom d'utilisateur">
 	<input type="password" name="password" placeholder="password">
 
