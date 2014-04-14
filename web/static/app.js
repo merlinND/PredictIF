@@ -4,6 +4,7 @@ $(document).ready(function(){
 });
 
 function showClientInfos(e) {
+	e.preventDefault();
 	$('.details-client').hide();
 	
 	var attribute = $(e.currentTarget).attr('href'),
@@ -12,4 +13,6 @@ function showClientInfos(e) {
 		var id = matches[1];
 		$('#client-' + id).show();
 	}
+	
+	return false;
 }

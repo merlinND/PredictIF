@@ -21,7 +21,7 @@
 <h2>Choisissez un client à traiter</h2>
 
 <!-- Liste des clients -->
-<ul>
+<ul class="liste-clients">
 	<input type="text" placeholder="Filtrer">
 	<select>
 		<option value="">Plus ancien</option>
