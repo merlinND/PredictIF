@@ -14,5 +14,6 @@
 		
 		<!-- Static -->
 		<link type="text/css" rel="stylesheet" href="/PredictIF/static/screen.css">
+		<script type="text/javascript" src="/PredictIF/static/jquery.1.11.0.min.js"></script>
     </head>
     <body>
