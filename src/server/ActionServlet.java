@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "ActionServlet", urlPatterns = {"/employe/*"})
 public class ActionServlet extends HttpServlet {
 
-	public final String URL_PREFIX = "/PredictIF/employe";
-	public final String STATIC_PREFIX = URL_PREFIX + "/static";
+	public static final String URL_PREFIX = "/PredictIF/employe";
+	public static final String STATIC_PREFIX = URL_PREFIX + "/static";
 	
 	public Map<String, String> routes;
 	public Map<String, Action> actions;
@@ -81,6 +81,14 @@ public class ActionServlet extends HttpServlet {
 		// Execute action if existing
 		if (actions.containsKey(uri)) {
 			actions.get(uri).execute(request);
+		}
+		
+		// Execute resulting redirect if needed
+		String redirectTo = (String)request.getAttribute("redirect-to");
+		if (redirectTo != null) {
+			request.setAttribute("redirect-to", "");
+			response.sendRedirect(redirectTo);
+			return;
 		}
 		
 		// Forward to view

@@ -16,7 +16,7 @@
 	</c:when>
 	<c:otherwise>
 		<p>
-			Bienvenue, ${employe.nom}&nbsp;|&nbsp;
+			Bienvenue, ${employe.civilite} ${employe.nom}&nbsp;|&nbsp;
 			<a href="<%=request.getAttribute("URL_PREFIX")%>/logout"><button>Déconnexion</button></a>
 		</p>
 	</c:otherwise>

@@ -2,11 +2,17 @@
 package server;
 
 import dao.ClientUtil;
+import dao.EmployeUtil;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import metier.modele.Client;
 import metier.modele.Employe;
+import metier.service.Service;
 
 /**
  *
@@ -31,15 +37,16 @@ class LoginHandler implements Action {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		if (username != null && username.length() > 0) {
-			// TODO
-			Employe employe = null; //Service.findEmployeByEmail(username);
-
+			Employe employe = Service.findEmployeByEmail(username);
 			// Succès
-			session.setAttribute("employe", employe);
-			// TODO: rediriger vers l'accueil des employés ?
-
-			// Échec
-			request.setAttribute("erreur", "Mot de passe invalide.");
+			if (employe != null) {
+				session.setAttribute("employe", employe);
+				request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+			}
+			else {
+				// Échec
+				request.setAttribute("erreur", "Mot de passe invalide.");
+			}
 		}
 	}
 }
