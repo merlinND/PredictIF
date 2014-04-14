@@ -17,6 +17,7 @@
 %>
 
 <%@include file="WEB-INF/jspf/header.jspf" %>
+
 <h2>Choisissez un client à traiter</h2>
 
 <!-- Liste des clients -->
@@ -27,14 +28,14 @@
 	</select>
 	
 	<c:forEach items="${clients}" var="client">
-		<li>${client.nom} ${client.prenom}</li>
+		<li><a href="#client-${client.id}">${client.nom} ${client.prenom}</a></li>
 	</c:forEach>
 </ul>
 
 <!-- Détails des clients (panneaux affichés dynamiquement) -->
 <section>
 	<c:forEach items="${clients}" var="client">
-		<div id="client-${client.id}">
+		<div id="client-${client.id}" class="details-client">
 			<h3>${client.civilite} ${client.prenom} ${client.nom}</h3>
 			<ul>
 				<li>Date de naissance : <fmt:formatDate value="${client.dateNaissance}" pattern="dd/MM/yyyy"/></li>
@@ -47,5 +48,7 @@
 	</c:forEach>
 </section>
 
+
+<script src="/PredictIF/static/app.js" type="text/javascript"></script>
 
 <%@include file="WEB-INF/jspf/footer.jspf" %>
