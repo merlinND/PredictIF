@@ -19,6 +19,7 @@
 <%@include file="header.jspf" %>
 
 <h2>Choisissez un client à traiter</h2>
+TODO: montrer en premier les clients non-traités.
 
 <!-- Liste des clients -->
 <ul class="liste-clients">
@@ -47,8 +48,5 @@
 		</div>
 	</c:forEach>
 </section>
-
-
-<script src="/PredictIF/static/app.js" type="text/javascript"></script>
 
 <%@include file="footer.jspf" %>

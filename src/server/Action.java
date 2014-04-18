@@ -2,16 +2,16 @@
 package server;
 
 import dao.ClientUtil;
-import dao.EmployeUtil;
-import java.io.IOException;
+import dao.HoroscopeUtil;
+import dao.PredictionUtil;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.ServletException;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import metier.modele.Client;
 import metier.modele.Employe;
+import metier.modele.prediction.Prediction;
 import metier.service.Service;
 
 /**
@@ -40,6 +40,9 @@ class LoginHandler implements Action {
 			Employe employe = Service.findEmployeByEmail(username);
 			// Succès
 			if (employe != null) {
+				// Charger la liste des clients dans l'objet (lazy-loading)
+				List<Client> clients = employe.getListClient();
+				
 				session.setAttribute("employe", employe);
 				request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
 			}
@@ -67,8 +70,49 @@ class ClientLister implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request) {
-		List<Client> clients = ClientUtil.getListClient();
-		request.setAttribute("clients", clients);
+		Employe e = (Employe) request.getSession().getAttribute("employe");
+		if (e != null) {
+			List<Client> clients = e.getListClient();
+			request.setAttribute("clients", clients);
+			return;
+		}
+		
+		// Error cases (mising parameters)
+		request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/login");
+		return;
+	}
+	
+}
+
+class HoroscopeCreater implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request) {
+		String clientIdString = request.getParameter("clientId");
+		if (clientIdString != null) {
+			Long clientId = Long.decode(clientIdString);
+		
+			if (clientId != null) {
+				Client c = ClientUtil.find(clientId);
+				if (c != null) {
+					
+					request.setAttribute("client", c);
+					request.setAttribute("mediums", c.getMediumsFavoris());
+					request.setAttribute("horoscopes", HoroscopeUtil.getListHoroFromClient(c));
+					
+					Map<String, List<Prediction>> predictions = new HashMap<String, List<Prediction>>();
+					predictions.put("travail", PredictionUtil.getListTravail());
+					predictions.put("amour", PredictionUtil.getListAmour());
+					predictions.put("sante", PredictionUtil.getListSante());
+					request.setAttribute("predictions", predictions);
+					
+					return;
+				}
+			}
+		}
+		// Error cases (mising parameters)
+		request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+		return;
 	}
 	
 }

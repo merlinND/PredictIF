@@ -42,6 +42,7 @@ public class ActionServlet extends HttpServlet {
 		actions.put("/login", new LoginHandler());
 		actions.put("/logout", new LogoutHandler());
 		actions.put("/clients", new ClientLister());
+		actions.put("/horoscope", new HoroscopeCreater());
 	}
 
 	@Override
