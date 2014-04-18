@@ -8,12 +8,19 @@
 	request.setAttribute("title", "Création d'horoscope");
 	Client client = (Client)request.getAttribute("client");
 %>
-<%@include file="WEB-INF/jspf/header.jspf" %>
+<%@include file="header.jspf" %>
 
 <h2>Création d'un horoscope pour ${client.civilite} ${client.nom}</h2>
 
-<section>
-	<h3>Infos clients</h3>
+<section id="client-${client.id}" class="details-client">
+	<h3>Infos clients pour ${client.civilite} ${client.prenom} ${client.nom}</h3>
+	<ul>
+		<li>Date de naissance : <fmt:formatDate value="${client.dateNaissance}" pattern="dd/MM/yyyy"/></li>
+		<li>Adresse : ${client.adresse}</li>
+		<li>Téléphone : ${client.telephone}</li>
+		<li>E-mail : ${client.email}</li>
+		<li>TODO: lister les médiums associés</li>
+	</ul>
 </section>
 
 <section>
@@ -40,4 +47,4 @@
 	</section>
 </section>
 
-<%@include file="WEB-INF/jspf/footer.jspf" %>
+<%@include file="footer.jspf" %>

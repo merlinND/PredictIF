@@ -6,7 +6,7 @@
 <%
 	request.setAttribute("title", "Identification employé");
 %>
-<%@include file="WEB-INF/jspf/header.jspf" %>
+<%@include file="header.jspf" %>
 
 <h2>Identification employé</h2>
 
@@ -28,4 +28,4 @@
 request.setAttribute("erreur", "");
 %>
 
-<%@include file="WEB-INF/jspf/footer.jspf" %>
+<%@include file="footer.jspf" %>

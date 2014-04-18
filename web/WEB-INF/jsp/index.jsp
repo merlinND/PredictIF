@@ -6,7 +6,7 @@
 <%
 	request.setAttribute("title", "Accueil");
 %>
-<%@include file="WEB-INF/jspf/header.jspf" %>
+<%@include file="header.jspf" %>
 
 <h2>Hello index!</h2>
-<%@include file="WEB-INF/jspf/footer.jspf" %>
+<%@include file="footer.jspf" %>

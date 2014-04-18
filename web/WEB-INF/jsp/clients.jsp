@@ -16,7 +16,7 @@
 	List<Client> clients = (List<Client>)request.getAttribute("clients");
 %>
 
-<%@include file="WEB-INF/jspf/header.jspf" %>
+<%@include file="header.jspf" %>
 
 <h2>Choisissez un client à traiter</h2>
 
@@ -51,4 +51,4 @@
 
 <script src="/PredictIF/static/app.js" type="text/javascript"></script>
 
-<%@include file="WEB-INF/jspf/footer.jspf" %>
+<%@include file="footer.jspf" %>

@@ -21,19 +21,20 @@ public class ActionServlet extends HttpServlet {
 
 	public static final String URL_PREFIX = "/PredictIF/employe";
 	public static final String STATIC_PREFIX = URL_PREFIX + "/static";
+	public static final String JSP_PREFIX = "../WEB-INF/jsp";
 	
 	public Map<String, String> routes;
 	public Map<String, Action> actions;
 
 	public ActionServlet() {
 		routes = new HashMap<String, String>();
-		routes.put("", "../index.jsp");
-		routes.put("/", "../index.jsp");
-		routes.put("/index", "../index.jsp");
-		routes.put("/login", "../login.jsp");
-		routes.put("/logout", "../login.jsp");
-		routes.put("/clients", "../clients.jsp");
-		routes.put("/horoscope", "../horoscope.jsp");
+		routes.put("", JSP_PREFIX + "/index.jsp");
+		routes.put("/",JSP_PREFIX + "/index.jsp");
+		routes.put("/index", JSP_PREFIX + "/index.jsp");
+		routes.put("/login", JSP_PREFIX + "/login.jsp");
+		routes.put("/logout", JSP_PREFIX + "/login.jsp");
+		routes.put("/clients", JSP_PREFIX + "/clients.jsp");
+		routes.put("/horoscope", JSP_PREFIX + "/horoscope.jsp");
 		
 		// TODO: require login on most pages
 		
