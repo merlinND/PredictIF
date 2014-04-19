@@ -9,4 +9,7 @@
 <%@include file="header.jspf" %>
 
 <h2>Hello index!</h2>
+
+<a href="<%=request.getAttribute("URL_PREFIX")%>/clients">Liste des clients</a>
+
 <%@include file="footer.jspf" %>

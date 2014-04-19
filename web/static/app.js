@@ -1,6 +1,15 @@
 $(document).ready(function(){
-	$('a[href^="#client-"').on('click', showClientInfos);
-	$('a[href^="#client-"').click();
+	// Initialize tooltip.js
+	$('[data-toggle="popover"]').popover();
+	
+	//$('a[href^="#client-"').on('click', showClientInfos);
+	//$('a[href^="#client-"').click();
+	
+	$('select.choix-horoscope').on('change', function(e){
+		showDetailsSelect($(e.target), 'horoscope');
+	});
+	// Show initial selection
+	$('select.choix-horoscope').change();
 	
 	$('select.choix-prediction').on('change', function(e){
 		showDetailsSelect($(e.target), 'prediction');
@@ -15,7 +24,7 @@ $(document).ready(function(){
 	$('select.choix-medium').change();
 	
 	// Submit horoscope creation
-	$('form#creer-horoscope').submit(creerHoroscope);
+	$('form#creer-horoscope').on('submit', creerHoroscope);
 });
 
 function showClientInfos(e) {

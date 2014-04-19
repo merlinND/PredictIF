@@ -16,6 +16,7 @@
 		<link type="text/css" rel="stylesheet" href="/PredictIF/static/bootstrap.min.css">
 		<link type="text/css" rel="stylesheet" href="/PredictIF/static/screen.css">
 		<script type="text/javascript" src="/PredictIF/static/jquery.1.11.0.min.js"></script>
+		<script type="text/javascript" src="/PredictIF/static/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/PredictIF/static/app.js"></script>
     </head>
     <body>

@@ -18,7 +18,7 @@
 	String listerPredictions(List<Prediction> predictions, String type) {
 		String html = "";
 		
-		html += "<select name = \"prediction-" + type + "\" class = \"choix-prediction\">";
+		html += "<select name = \"prediction-" + type + "\" class = \"choix-prediction form-control\">";
 		for(Prediction p : predictions) {
 				html += "<option value = \"" + p.getId() + "\">";
 					html += p.getChance() + " | " + p.getDescription();
@@ -51,63 +51,74 @@
 <h2>Création d'un horoscope pour ${client.civilite} ${client.nom}</h2>
 <p>&laquo;&nbsp;Retour à la <a href="<%=request.getAttribute("URL_PREFIX")%>/clients">liste des clients</a></p>
 
-<section id="client-${client.id}" class="details-client">
-	<h3>Infos clients pour ${client.civilite} ${client.prenom} ${client.nom}</h3>
-	<ul>
-		<li>Date de naissance : <fmt:formatDate value="${client.dateNaissance}" pattern="dd/MM/yyyy"/></li>
-		<li>Adresse : ${client.adresse}</li>
-		<li>Téléphone : ${client.telephone}</li>
-		<li>E-mail : ${client.email}</li>
-		<li>
-			Mediums favoris&nbsp;:&nbsp;
-			<ul>
-				<c:forEach items="${mediums}" var="medium">
-					<li>${medium.civilite} ${medium.nom}</li>
-				</c:forEach>
-			</ul>
-		</li>
-	</ul>
-</section>
-
-<section>
-	<h3>Anciens horoscopes</h3>
-	
-	<select>
-		<option value="-1">Choisir un horoscope à consulter</option>
-		<c:forEach items = "${horoscopes}" var = "horoscope">
-			<option value="${horoscope.id}">
-				Horoscope du <fmt:formatDate value="${horoscope.creationDate}" pattern="dd/MM/yyyy"/>
-			</option>
-		</c:forEach>
-	</select>
-	
-	<c:forEach items = "${horoscopes}" var = "horoscope">
-		<div id="horoscope-${horoscope.id}" class="details-horoscope">
-			<h4>Prédictions</h4>
-			<p>
-				<strong>Travail</strong>&nbsp;:
-				${horoscope.travailPred.chance}&nbsp;|&nbsp;${horoscope.travailPred.description}
-			</p>
-			<p>
-				<strong>Amour</strong>&nbsp;:
-				${horoscope.amourPred.chance}&nbsp;|&nbsp;${horoscope.amourPred.description}
-			</p>
-			<p>
-				<strong>Santé</strong>&nbsp;:
-				${horoscope.santePred.chance}&nbsp;|&nbsp;${horoscope.santePred.description}
-			</p>
-			<h4>Médium</h4>
-			<p>
-				<strong>NOM</strong>
-				${horoscope.medium.civilite}&nbsp;${horoscope.medium.nom}
-			</p>
+<div class="row">
+	<div id="client-${client.id}" class="panel panel-default details-client col-md-6">
+		<div class="panel-heading">
+			<h3>Infos clients</h3>
 		</div>
-	</c:forEach>
-</section>
+		<div class="panel-body">
+			<ul>
+				<li>Date de naissance : <fmt:formatDate value="${client.dateNaissance}" pattern="dd/MM/yyyy"/></li>
+				<li>Adresse : ${client.adresse}</li>
+				<li>Téléphone : ${client.telephone}</li>
+				<li>E-mail : ${client.email}</li>
+				<li>
+					Mediums favoris&nbsp;:&nbsp;
+					<ul>
+						<c:forEach items="${mediums}" var="medium">
+							<li>${medium.civilite} ${medium.nom}</li>
+						</c:forEach>
+					</ul>
+				</li>
+			</ul>
+		</div> <!-- end .panel-body -->
+	</div>
 
-<section>
-	<section>
+	<div class="panel panel-default col-md-6">
+		<div class="panel-heading">
+			<h3>Anciens horoscopes</h3>
+		</div>
+		<div class="panel-body">
+			<select class="choix-horoscope">
+				<option value="-1">Choisir un horoscope à consulter</option>
+				<c:forEach items = "${horoscopes}" var = "horoscope">
+					<option value="${horoscope.id}">
+						Horoscope du <fmt:formatDate value="${horoscope.creationDate}" pattern="dd/MM/yyyy"/>
+					</option>
+				</c:forEach>
+			</select>
+
+			<c:forEach items = "${horoscopes}" var = "horoscope">
+			<div id="horoscope-${horoscope.id}" class="details-horoscope">
+				<h4>Prédictions</h4>
+				<p>
+					<strong>Travail</strong>&nbsp;:
+					${horoscope.travailPred.chance}&nbsp;|&nbsp;${horoscope.travailPred.description}
+				</p>
+				<p>
+					<strong>Amour</strong>&nbsp;:
+					${horoscope.amourPred.chance}&nbsp;|&nbsp;${horoscope.amourPred.description}
+				</p>
+				<p>
+					<strong>Santé</strong>&nbsp;:
+					${horoscope.santePred.chance}&nbsp;|&nbsp;${horoscope.santePred.description}
+				</p>
+				<h4>Médium</h4>
+				<p>
+					${horoscope.medium.civilite}&nbsp;${horoscope.medium.nom}
+				</p>
+			</div>
+			</c:forEach>
+
+		</div> <!-- end .panel-body -->
+	</div>
+</div> <!-- end .row -->
+			
+<section class="panel panel-default">
+	<div class="panel-heading">
 		<h3>Nouvel horoscope</h3>
+	</div>
+	<div class="panel-body">
 
 		<form action="<%=request.getAttribute("URL_PREFIX")%>/horoscope-traitement?clientId=${client.id}" method="post" id="creer-horoscope">
 			<p>
@@ -139,7 +150,8 @@
 			<input type="submit" value="Envoyer">
 			<a href="<%=request.getAttribute("URL_PREFIX")%>/clients">Annuler</a>
 		</form>
-	</section>
+		
+	</div> <!-- end panel-body -->
 </section>
 
 <%@include file="footer.jspf" %>

@@ -14,13 +14,27 @@
 	<%= request.getAttribute("message") %>
 </p>
 
-<form action="<%=request.getAttribute("URL_PREFIX")%>/login" method="post">
-	<input type="text" name="username" placeholder="Nom d'utilisateur">
-	<input type="password" name="password" placeholder="password">
+<form action="<%=request.getAttribute("URL_PREFIX")%>/login" method="post" class="form-horizontal" role="form">
+	<div class="form-group">
+		<label for="username" class="col-sm-2 control-label">Nom d'utilisateur</label>
+		<div class="col-sm-10">
+			<input type="text" name="username" placeholder="Nom d'utilisateur">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="password" class="col-sm-2 control-label">Mot de passe</label>
+		<div class="col-sm-10">
+			<input type="password" name="password" placeholder="Mot de passe">
+		</div>
+	</div>
 
 	<span class="erreur"><%= request.getAttribute("erreur") %></span>
 
-	<input type="submit" value="Connexion">
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<input type="submit" value="Connexion">
+		</div>
+	</div>
 </form>
 
 <%

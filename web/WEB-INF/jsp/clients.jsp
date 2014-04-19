@@ -29,7 +29,11 @@ TODO: montrer en premier les clients non-traités.
 	</select>
 	
 	<c:forEach items="${clients}" var="client">
-		<li><a href="#client-${client.id}">${client.nom} ${client.prenom}</a></li>
+		<li>
+			<a href="#client-${client.id}" data-container="body" data-toggle="popover" data-placement="right" data-content="TOOD : infos client">
+				${client.nom} ${client.prenom}
+			</a>
+		</li>
 	</c:forEach>
 </ul>
 

@@ -6,18 +6,21 @@
 
 <%@include file="head.jspf" %>
 
-<!-- Header -->
-<h1><a href="<%=request.getAttribute("URL_PREFIX")%>/">Predict'IF - Interface employé</a></h1>
+<div class="container-fluid">
+	<!-- Header -->
+	<header>
+		<h1><a href="<%=request.getAttribute("URL_PREFIX")%>/">Predict'IF - Interface employé</a></h1>
 
-<!-- Menu -->
-<c:choose>
-	<c:when test="${employe == null}">
-		<a href="<%=request.getAttribute("URL_PREFIX")%>/login">Connexion</a>
-	</c:when>
-	<c:otherwise>
-		<p>
-			Bienvenue, ${employe.civilite} ${employe.nom}
-			<a href="<%=request.getAttribute("URL_PREFIX")%>/logout"><button>Déconnexion</button></a>
-		</p>
-	</c:otherwise>
-</c:choose>
+		<!-- Menu -->
+		<c:choose>
+			<c:when test="${employe == null}">
+				<a href="<%=request.getAttribute("URL_PREFIX")%>/login">Connexion</a>
+			</c:when>
+			<c:otherwise>
+				<p>
+					Bienvenue, ${employe.civilite} ${employe.nom}
+					<a href="<%=request.getAttribute("URL_PREFIX")%>/logout"><button>Déconnexion</button></a>
+				</p>
+			</c:otherwise>
+		</c:choose>
+	</header>
