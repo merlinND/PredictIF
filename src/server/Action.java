@@ -3,6 +3,7 @@ package server;
 
 import dao.ClientUtil;
 import dao.HoroscopeUtil;
+import dao.MediumUtil;
 import dao.PredictionUtil;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import metier.modele.Client;
 import metier.modele.Employe;
+import metier.modele.Horoscope;
+import metier.modele.Medium;
+import metier.modele.prediction.Amour;
 import metier.modele.prediction.Prediction;
+import metier.modele.prediction.Sante;
+import metier.modele.prediction.Travail;
 import metier.service.Service;
 
 /**
@@ -95,7 +101,6 @@ class HoroscopeCreater implements Action {
 			if (clientId != null) {
 				Client c = ClientUtil.find(clientId);
 				if (c != null) {
-					
 					request.setAttribute("client", c);
 					request.setAttribute("mediums", c.getMediumsFavoris());
 					request.setAttribute("horoscopes", HoroscopeUtil.getListHoroFromClient(c));
@@ -111,6 +116,63 @@ class HoroscopeCreater implements Action {
 			}
 		}
 		// Error cases (mising parameters)
+		request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+		return;
+	}
+	
+}
+
+/**
+ * Note: very few error cases are handled!
+ * @author Merlin
+ */
+class HoroscopeHandler implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request) {
+		String required[] = {
+			"clientId",
+			"prediction-travail",
+			"prediction-amour",
+			"prediction-sante",
+			"choix-medium"
+		};
+		Map<String, Long> data = new HashMap<String, Long>();
+		
+		for (String key : required) {
+			String s = request.getParameter(key);
+			if (s != null) {
+				data.put(key, Long.decode(s));
+			}
+			else {
+				// Mising parameters
+				System.out.println("Missing parameter : " + key);
+				request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+				return;
+			}
+		}
+		
+		Client c = ClientUtil.find(data.get("clientId"));
+		if (c != null) {
+			Medium m = MediumUtil.find(data.get("choix-medium"));
+			Travail t = (Travail)PredictionUtil.find(data.get("prediction-travail"));
+			Amour a = (Amour)PredictionUtil.find(data.get("prediction-amour"));
+			Sante s = (Sante)PredictionUtil.find(data.get("prediction-sante"));
+			
+			if (m != null && t != null && a != null && s != null) {
+				Horoscope h = new Horoscope(c, m);
+				h.setTravailPrediction(t);
+				h.setAmourPrediction(a);
+				h.setSantePrediction(s);
+				
+				Service.create(h);
+				
+				// Success : nothing to do
+				return;
+			}
+		}
+		
+		// Error cases (IDs not found)
 		request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
 		return;
 	}

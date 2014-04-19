@@ -45,8 +45,6 @@
 	List<Prediction> predictionsTravail = predictions.get("travail"),
 					predictionsAmour = predictions.get("amour"),
 					predictionsSante = predictions.get("sante");
-	
-	System.out.println(predictionsSante);
 %>
 <%@include file="header.jspf" %>
 
@@ -111,7 +109,7 @@
 	<section>
 		<h3>Nouvel horoscope</h3>
 
-		<form action="<%=request.getAttribute("URL_PREFIX")%>/traitementHorosocope" method="post">
+		<form action="<%=request.getAttribute("URL_PREFIX")%>/horoscope-traitement?clientId=${client.id}" method="post" id="creer-horoscope">
 			<p>
 				<label>Travail</label>
 				<%= listerPredictions(predictionsTravail, "travail") %>
@@ -132,19 +130,15 @@
 					</c:forEach>
 				</select>
 				<c:forEach items="${mediums}" var="medium">
-				<span id="medium-${medium.id}" class = "details-medium">
-					${medium.biographie}
-				</span>
+					<span id="medium-${medium.id}" class = "details-medium">
+						${medium.biographie}
+					</span>
 				</c:forEach>
 			</p>
 			
 			<input type="submit" value="Envoyer">
 			<a href="<%=request.getAttribute("URL_PREFIX")%>/clients">Annuler</a>
 		</form>
-	</section>
-	
-	<section>
-		<h3>Prévisualisation</h3>
 	</section>
 </section>
 

@@ -13,6 +13,9 @@ $(document).ready(function(){
 	});
 	// Show initial selection
 	$('select.choix-medium').change();
+	
+	// Submit horoscope creation
+	$('form#creer-horoscope').submit(creerHoroscope);
 });
 
 function showClientInfos(e) {
@@ -34,4 +37,22 @@ function showDetailsSelect(select, type) {
 	var option = select.find('option:selected').first(),
 		id = option.attr('value');
 	$('#'+ type + '-' + id).show();
+}
+
+function creerHoroscope(e) {
+	e.preventDefault();
+	var form = $(e.target);
+	
+	$.ajax(form.attr('action'), {
+		'method': 'post',
+		'data': form.serialize(),
+		'success': function(html) {
+			form.empty().html('<div class="success">L\'horoscope a bien été créé !</div>');
+		},
+		'error': function(code) {
+			alert(code);
+		}
+	});
+	
+	return false;
 }

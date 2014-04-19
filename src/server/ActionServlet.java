@@ -35,6 +35,7 @@ public class ActionServlet extends HttpServlet {
 		routes.put("/logout", JSP_PREFIX + "/login.jsp");
 		routes.put("/clients", JSP_PREFIX + "/clients.jsp");
 		routes.put("/horoscope", JSP_PREFIX + "/horoscope.jsp");
+		routes.put("/horoscope-traitement", null);
 		
 		// TODO: require login on most pages
 		
@@ -43,6 +44,8 @@ public class ActionServlet extends HttpServlet {
 		actions.put("/logout", new LogoutHandler());
 		actions.put("/clients", new ClientLister());
 		actions.put("/horoscope", new HoroscopeCreater());
+		actions.put("/horoscope-traitement", new HoroscopeHandler());
+		
 	}
 
 	@Override
@@ -72,9 +75,6 @@ public class ActionServlet extends HttpServlet {
 
 		// Store useful constants
 		request.setAttribute("URL_PREFIX", URL_PREFIX);
-		// Set encoding once and for all
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
 		
 		// Extract session and request URI
 		HttpSession session = request.getSession();
@@ -85,6 +85,14 @@ public class ActionServlet extends HttpServlet {
 			actions.get(uri).execute(request);
 		}
 		
+		// Execute resulting forward if needed
+		String forwardTo = (String)request.getAttribute("forward-to");
+		if (forwardTo != null) {
+			request.setAttribute("forward-to", "");
+			request.getRequestDispatcher(forwardTo).forward(request, response);
+			return;
+		}
+
 		// Execute resulting redirect if needed
 		String redirectTo = (String)request.getAttribute("redirect-to");
 		if (redirectTo != null) {
@@ -95,7 +103,8 @@ public class ActionServlet extends HttpServlet {
 		
 		// Forward to view
 		if (routes.containsKey(uri)) {
-			request.getRequestDispatcher(routes.get(uri)).forward(request, response);
+			if (routes.get(uri) != null)
+				request.getRequestDispatcher(routes.get(uri)).forward(request, response);
 		}
 		else {
 			response.sendError(404);
