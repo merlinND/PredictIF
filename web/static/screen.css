@@ -7,8 +7,7 @@
 html, body {
 }
 footer {
-	width: 100%;
-	float: none; clear: both;
+	text-align: center;
 }
 .success {
 	font-size: 1.5em;
@@ -16,13 +15,12 @@ footer {
 	color: green;
 }
 
+
 /* ----- Liste des clients */
 .liste-clients {
 	//width: 50%;
 	//float: left;
 }
-.details-client {
-	//width: 40%;
-	//position: fixed;
-	//top: 10px; right: 10px;
+.popover ul {
+	padding-left: 20px;
 }

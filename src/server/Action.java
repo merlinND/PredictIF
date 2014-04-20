@@ -54,7 +54,7 @@ class LoginHandler implements Action {
 			}
 			else {
 				// Échec
-				request.setAttribute("erreur", "Mot de passe invalide.");
+				request.setAttribute("erreur", "Nom d'utilisateur ou mot de passe invalide.");
 			}
 		}
 	}

@@ -8,19 +8,36 @@
 
 <div class="container-fluid">
 	<!-- Header -->
-	<header>
-		<h1><a href="<%=request.getAttribute("URL_PREFIX")%>/">Predict'IF - Interface employé</a></h1>
+	<header class="page-header">
+		<div class="row">
+			<div class="col-sm-6">
+				<h1>
+					<a href="<%=request.getAttribute("URL_PREFIX")%>/">Predict'IF</a>
+					<smalL>Interface employé</small>
+				</h1>
+			</div>
 
-		<!-- Menu -->
-		<c:choose>
-			<c:when test="${employe == null}">
-				<a href="<%=request.getAttribute("URL_PREFIX")%>/login">Connexion</a>
-			</c:when>
-			<c:otherwise>
-				<p>
-					Bienvenue, ${employe.civilite} ${employe.nom}
-					<a href="<%=request.getAttribute("URL_PREFIX")%>/logout"><button>Déconnexion</button></a>
-				</p>
-			</c:otherwise>
-		</c:choose>
+			<!-- Menu -->
+			<div class="col-sm-6" style="margin-top: 35px;">
+				<c:choose>
+					<c:when test="${employe == null}">
+						<a href="<%=request.getAttribute("URL_PREFIX")%>/login" class="pull-right"
+						   ><button class="btn btn-success btn-xs">Connexion</button>
+						</a>
+					</c:when>
+					<c:otherwise>
+						Bienvenue, ${employe.civilite} ${employe.nom}
+							
+						<div class="pull-right">
+							<a href="<%=request.getAttribute("URL_PREFIX")%>/clients">
+								<button class="btn btn-info btn-xs">Clients</button>
+							</a>
+							<a href="<%=request.getAttribute("URL_PREFIX")%>/logout">
+								<button class="btn btn-default btn-xs">Déconnexion</button>
+							</a>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
 	</header>

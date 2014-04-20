@@ -1,9 +1,14 @@
 $(document).ready(function(){
+	// Magic trick
+	fillClientInfosPopover();
 	// Initialize tooltip.js
-	$('[data-toggle="popover"]').popover();
-	
-	//$('a[href^="#client-"').on('click', showClientInfos);
-	//$('a[href^="#client-"').click();
+	$('[data-toggle="popover"]').popover({
+		'html': true
+	});
+	// Only show one popover at a time
+	$('[data-toggle="popover"]').on('show.bs.popover', function() {
+		$('[data-toggle="popover"]').popover('hide');
+	});
 	
 	$('select.choix-horoscope').on('change', function(e){
 		showDetailsSelect($(e.target), 'horoscope');
@@ -27,6 +32,22 @@ $(document).ready(function(){
 	$('form#creer-horoscope').on('submit', creerHoroscope);
 });
 
+function fillClientInfosPopover() {
+	$('.holder.details-client').hide();
+	
+	$('.holder.details-client').each(function(i, el) {
+		var attribute = $(el).attr('id'),
+			matches = attribute.match(/client-(\d+)/i);
+		if (matches !== null) {
+			var id = matches[1];
+			var holder = $('a[href="#client-' + id +'"]'),
+				contents = $('<div>' + $(el).html() + '</div>');
+			holder.attr("data-original-title", contents.find('h3').remove().html());
+			holder.attr("data-content", contents.html());
+		}
+	});
+	
+}
 function showClientInfos(e) {
 	e.preventDefault();
 	$('.details-client').hide();

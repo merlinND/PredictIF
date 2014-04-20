@@ -1,5 +1,7 @@
+			<div class="clearfix"></div>
+			<hr>
 			<footer>
-				© Predict'IF 2014
+				<p>© Predict'IF 2014</p>
 			</footer>
 
 		</div> <!-- end .container-fluid -->

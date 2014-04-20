@@ -22,25 +22,32 @@
 TODO: montrer en premier les clients non-traités.
 
 <!-- Liste des clients -->
-<ul class="liste-clients">
-	<input type="text" placeholder="Filtrer">
-	<select>
-		<option value="">Plus ancien</option>
-	</select>
+<section class="col-xs-12">
+	<div class="row">
+		<div class="col-xs-8">
+			<input type="text" placeholder="Filtrer" class="form-control">
+		</div>
+		<div class="col-xs-4">
+			<select class="form-control">
+				<option value="">Plus ancien</option>
+			</select>
+		</div>
+	</div>
 	
-	<c:forEach items="${clients}" var="client">
-		<li>
-			<a href="#client-${client.id}" data-container="body" data-toggle="popover" data-placement="right" data-content="TOOD : infos client">
-				${client.nom} ${client.prenom}
-			</a>
-		</li>
-	</c:forEach>
-</ul>
-
+	<ul class="liste-clients list-group" style="margin-top:15px">
+		<c:forEach items="${clients}" var="client">
+			<li class="list-group-item">
+				<a href="#client-${client.id}" data-container="body" data-toggle="popover" data-placement="right" data-content="TOOD : infos client">
+					${client.nom} ${client.prenom}
+				</a>
+			</li>
+		</c:forEach>
+	</ul>
+</section>
 <!-- Détails des clients (panneaux affichés dynamiquement) -->
 <section>
 	<c:forEach items="${clients}" var="client">
-		<div id="client-${client.id}" class="details-client">
+		<div id="client-${client.id}" class="details-client holder">
 			<h3>${client.civilite} ${client.prenom} ${client.nom}</h3>
 			<ul>
 				<li>Date de naissance : <fmt:formatDate value="${client.dateNaissance}" pattern="dd/MM/yyyy"/></li>
@@ -48,7 +55,7 @@ TODO: montrer en premier les clients non-traités.
 				<li>Téléphone : ${client.telephone}</li>
 				<li>E-mail : ${client.email}</li>
 			</ul>
-			<a href="<%=request.getAttribute("URL_PREFIX")%>/horoscope?clientId=${client.id}"><button>Créer un horoscope</button></a>
+			<a href="<%=request.getAttribute("URL_PREFIX")%>/horoscope?clientId=${client.id}"><button class="btn btn-primary">Créer un horoscope</button></a>
 		</div>
 	</c:forEach>
 </section>
