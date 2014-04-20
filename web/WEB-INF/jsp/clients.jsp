@@ -25,7 +25,7 @@ TODO: montrer en premier les clients non-traités.
 <section class="col-xs-12">
 	<div class="row">
 		<div class="col-xs-8">
-			<input type="text" placeholder="Filtrer" class="form-control">
+			<input type="text" name="filtre-client" id="filtre-client" placeholder="Filtrer" class="form-control">
 		</div>
 		<div class="col-xs-4">
 			<select class="form-control">
@@ -37,7 +37,7 @@ TODO: montrer en premier les clients non-traités.
 	<ul class="liste-clients list-group" style="margin-top:15px">
 		<c:forEach items="${clients}" var="client">
 			<li class="list-group-item">
-				<a href="#client-${client.id}" data-container="body" data-toggle="popover" data-placement="right" data-content="TOOD : infos client">
+				<a href="#client-${client.id}" data-container="body" data-toggle="popover" data-placement="right" data-content="" class="nom">
 					${client.nom} ${client.prenom}
 				</a>
 			</li>

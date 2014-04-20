@@ -9,6 +9,10 @@ $(document).ready(function(){
 	$('[data-toggle="popover"]').on('show.bs.popover', function() {
 		$('[data-toggle="popover"]').popover('hide');
 	});
+	// Filter client list on name
+	$("#filtre-client").on('keyup', function(e) {
+		filterSet($(".liste-clients li"), "nom", $(this).val());
+	});
 	
 	$('select.choix-horoscope').on('change', function(e){
 		showDetailsSelect($(e.target), 'horoscope');
@@ -35,6 +39,29 @@ $(document).ready(function(){
 	$(".choisir-medium").on('click', addMedium);
 	$(".retirer-medium").hide().on('click', removeMedium);
 });
+
+/**
+ * Fuzzy match in set on field corresponding to value
+ * @param set The set on which to search
+ * @param {string} field The class of the element containing the value on which to match
+ * @param {string} value The desired value
+ * @returns void
+ */
+function filterSet(set, field, value) {
+	if (value.length <= 0) {
+		set.show();
+		return;
+	}
+	
+	value = value.toLowerCase();
+	set.each(function(i, el) {
+		var val = $(el).find('.' + field).text().toLowerCase();
+		if (val.indexOf(value) > -1)
+			$(el).show();
+		else
+			$(el).hide();
+	});
+}
 
 function fillClientInfosPopover() {
 	$('.holder.details-client').hide();
