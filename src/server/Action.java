@@ -139,7 +139,7 @@ class HoroscopeCreater implements Action {
 						predictions.put("amour", PredictionUtil.getListAmour());
 						predictions.put("sante", PredictionUtil.getListSante());
 						request.setAttribute("predictions", predictions);
-
+						
 						return;
 					}
 				}
@@ -201,7 +201,9 @@ class HoroscopeHandler implements Action {
 				
 				Service.create(h);
 				
-				// Success : nothing to do
+				// Success : send confirmation e-mail
+				System.out.println("===== Sending e-mail to client =====");
+				System.out.println(Service.generateEmailForClient(h));
 				return;
 			}
 		}

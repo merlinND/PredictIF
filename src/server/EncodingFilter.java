@@ -32,20 +32,13 @@ public class EncodingFilter implements Filter {
 	
 	private void doBeforeProcessing(ServletRequest request, ServletResponse response)
 			throws IOException, ServletException {
-		if (debug) {
-			log("EncodingFilter:DoBeforeProcessing");
-		}
-		
 		// Set encoding once and for all
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-	}	
+	}
 	
 	private void doAfterProcessing(ServletRequest request, ServletResponse response)
 			throws IOException, ServletException {
-		if (debug) {
-			log("EncodingFilter:DoAfterProcessing");
-		}
 	}
 
 	/**
