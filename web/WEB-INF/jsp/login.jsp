@@ -3,11 +3,15 @@
     Created on : Apr 7, 2014, 2:55:41 PM
     Author     : Merlin
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	request.setAttribute("title", "Identification employé");
 	
 	String message = (String)request.getAttribute("message");
 	String erreur = (String)request.getAttribute("erreur");
+	// Nettoyer les erreurs et messages
+	request.setAttribute("erreur", "");
+	request.setAttribute("message", "");
 %>
 <%@include file="header.jspf" %>
 
@@ -41,11 +45,5 @@
 		</div>
 	</div>
 </form>
-
-<%
-// Nettoyer les erreurs et messages
-request.setAttribute("erreur", "");
-request.setAttribute("message", "");
-%>
 
 <%@include file="footer.jspf" %>
