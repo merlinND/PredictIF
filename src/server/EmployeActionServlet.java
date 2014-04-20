@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebServlet;
  *
  * @author Merlin
  */
-@WebServlet(name = "ActionServlet", urlPatterns = {"/employe/*"})
+@WebServlet(name = "EmployeActionServlet", urlPatterns = {"/employe/*"})
 public class EmployeActionServlet extends ActionServlet {
 
 	public EmployeActionServlet() {
@@ -35,6 +35,5 @@ public class EmployeActionServlet extends ActionServlet {
 		actions.put("/clients", new ClientLister());
 		actions.put("/horoscope", new HoroscopeCreater());
 		actions.put("/horoscope-traitement", new HoroscopeHandler());
-		
 	}
 }

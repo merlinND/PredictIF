@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebServlet;
  *
  * @author Merlin
  */
-@WebServlet(name = "ActionServlet", urlPatterns = {"/client/*"})
+@WebServlet(name = "ClientActionServlet", urlPatterns = {"/client/*"})
 public class ClientActionServlet extends ActionServlet {
 
 	public ClientActionServlet() {
