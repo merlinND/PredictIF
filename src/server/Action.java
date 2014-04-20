@@ -2,6 +2,7 @@
 package server;
 
 import dao.ClientUtil;
+import dao.EmployeUtil;
 import dao.HoroscopeUtil;
 import dao.MediumUtil;
 import dao.PredictionUtil;
@@ -236,8 +237,26 @@ class ClientLister implements Action {
 	public void execute(HttpServletRequest request) {
 		Employe e = (Employe) request.getSession().getAttribute("employe");
 		if (e != null) {
-			List<Client> clients = e.getListClient();
-			request.setAttribute("clients", clients);
+			List<Client> result = new ArrayList<Client>(),
+						 other = new ArrayList<Client>(),
+						 clients = e.getListClient();
+			
+			// List only clients that need their horoscope done
+			for (Client c : clients) {
+				if (HoroscopeUtil.besoinHoroscope(c))
+					result.add(c);
+				else
+					other.add(c);
+			}
+			
+			request.setAttribute("clients", result);
+			request.setAttribute("otherClients", other);
+			
+			List<Client> allClients = new ArrayList<Client>();
+			allClients.addAll(clients);
+			allClients.addAll(other);
+			request.setAttribute("allClients", allClients);
+			
 			return;
 		}
 		
@@ -266,6 +285,7 @@ class HoroscopeCreater implements Action {
 						request.setAttribute("horoscopes", HoroscopeUtil.getListHoroFromClient(c));
 
 						Map<String, List<Prediction>> predictions = new HashMap<String, List<Prediction>>();
+						// TODO: list only predictions that were not used previously?
 						predictions.put("travail", PredictionUtil.getListTravail());
 						predictions.put("amour", PredictionUtil.getListAmour());
 						predictions.put("sante", PredictionUtil.getListSante());

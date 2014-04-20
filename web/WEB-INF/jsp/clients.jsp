@@ -14,12 +14,16 @@
 <%
 	request.setAttribute("title", "Liste des clients");
 	List<Client> clients = (List<Client>)request.getAttribute("clients");
+	// Clients who do not need their horoscope done
+	List<Client> otherClients = (List<Client>)request.getAttribute("otherClients");
+	
+	List<Client> allClients = (List<Client>)request.getAttribute("allClients");
 %>
 
 <%@include file="header.jspf" %>
 
 <h2>Choisissez un client à traiter</h2>
-TODO: montrer en premier les clients non-traités.
+TODO: montrer en premier les clients non-traités + tri personnalisable
 
 <!-- Liste des clients -->
 <section class="col-xs-12">
@@ -29,7 +33,8 @@ TODO: montrer en premier les clients non-traités.
 		</div>
 		<div class="col-xs-4">
 			<select class="form-control">
-				<option value="">Plus ancien</option>
+				<option value="ordre-priorite">Ordre de priorité</option>
+				<option value="nom">Ordre alphabétique</option>
 			</select>
 		</div>
 	</div>
@@ -40,13 +45,26 @@ TODO: montrer en premier les clients non-traités.
 				<a href="#client-${client.id}" data-container="body" data-toggle="popover" data-placement="right" data-content="" class="nom">
 					${client.nom} ${client.prenom}
 				</a>
+				<span class="hidden ordre-priorite">TODO : ordre de priorité</span>
+			</li>
+		</c:forEach>
+	</ul>
+	
+	<h3>Clients n'ayant pas besoin d'un nouvel horoscope</h3>
+	<ul class="liste-clients list-group" style="margin-top:15px">
+		<c:forEach items="${otherClients}" var="client">
+			<li class="list-group-item">
+				<a href="#client-${client.id}" data-container="body" data-toggle="popover" data-placement="right" data-content="" class="nom">
+					${client.nom} ${client.prenom}
+				</a>
 			</li>
 		</c:forEach>
 	</ul>
 </section>
+
 <!-- Détails des clients (panneaux affichés dynamiquement) -->
 <section>
-	<c:forEach items="${clients}" var="client">
+	<c:forEach items="${allClients}" var="client">
 		<div id="client-${client.id}" class="details-client holder">
 			<h3>${client.civilite} ${client.prenom} ${client.nom}</h3>
 			<ul>
