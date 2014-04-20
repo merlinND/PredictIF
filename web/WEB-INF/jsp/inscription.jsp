@@ -38,7 +38,7 @@
 						<div class="col-sm-4">
 							<select name="civilite" class="form-control">
 								<option value="M.">M.</option>
-								<option value="MME.">Mme.</option>
+								<option value="Mme">Mme</option>
 							</select>
 						</div>
 					</div>
@@ -85,8 +85,8 @@
 						<label for="pays" class="col-sm-2 control-label">Pays</label>
 						<div class="col-sm-10">
 							<select name="pays" class="form-control">
-								<option value="france">TODO</option>
-								<option value="TODO">TODO</option>
+								<option value="france">France</option>
+								<option value="autre">Autre</option>
 							</select>
 						</div>
 					</div>
@@ -121,7 +121,7 @@
 					</div>
 					<div class="checkbox">
 						<label class="col-sm-12">
-							<input type="checkbox" name="offres-partenaire" required>
+							<input type="checkbox" name="offres-partenaire">
 							Je souhaite recevoir des offres des partenaires de Predict'IF
 						</label>
 					</div>

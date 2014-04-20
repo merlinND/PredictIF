@@ -5,9 +5,14 @@ import dao.ClientUtil;
 import dao.HoroscopeUtil;
 import dao.MediumUtil;
 import dao.PredictionUtil;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import metier.modele.Client;
@@ -38,7 +43,91 @@ class SignupRedirecter implements Action {
 	}
 }
 
+/**
+ * @warning All verification (done client-side) should be duplicated server-side
+ * @author Merlin
+ */
 class SignupHandler implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request) {
+		String required[] = {
+			"civilite",
+			"nom",
+			"prenom",
+			"date-de-naissance",
+			"adresse",
+			"ville",
+			"code-postal",
+			"pays",
+			"email",
+			"telephone",
+			"cgu"
+		};
+		// + the checkbox "offres-partenaire" doesn't appear if it is left unchecked
+		Map<String, String> data = new HashMap<String, String>();
+		
+		for (String key : required) {
+			String s = request.getParameter(key);
+			if (s != null) {
+				data.put(key, s);
+			}
+			else {
+				// Mising parameters
+				System.out.println("Missing parameter : " + key);
+				request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/inscription");
+				return;
+			}
+		}
+		
+		// Format some fields
+		String name = data.get("nom").toUpperCase();
+		// Parse birthdate
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date;
+		try {
+			date = format.parse(data.get("date-de-naissance"));
+		}
+		catch (ParseException ex) {
+			Logger.getLogger(SignupHandler.class.getName()).log(Level.SEVERE, "Couldn't parse given date : " + data.get("date-de-naissance"), ex);
+			return;
+		}
+		// Concatenate address
+		String adresse = data.get("adresse") + ", " + data.get("code-postal") + " " + data.get("ville") + " " + data.get("pays");
+		
+		Client c = new Client(data.get("civilite"), name, data.get("prenom"), date, adresse, data.get("telephone"), data.get("email"));
+		
+		String offresPartenaire = request.getParameter("offres-partenaire");
+		if (offresPartenaire != null && offresPartenaire.equalsIgnoreCase("on")) {
+			c.setPartenaire(true);
+			
+			// Send e-mail to partners
+			System.out.println("===== Sending e-mail to partners =====");
+			System.out.println(Service.generateEmailForPartenaires(c));
+			return;
+		}
+		
+		System.out.println(c);
+		Service.create(c);
+		
+		// Success
+		request.getSession().setAttribute("client", c);
+		request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/choix-medium");
+	}
+	
+}
+
+class MediumSelector implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request) {
+		List<Medium> mediums = MediumUtil.getListMedium();
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+	
+}
+
+class MediumSelectionHandler implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request) {
