@@ -104,10 +104,8 @@ class SignupHandler implements Action {
 			// Send e-mail to partners
 			System.out.println("===== Sending e-mail to partners =====");
 			System.out.println(Service.generateEmailForPartenaires(c));
-			return;
 		}
 		
-		System.out.println(c);
 		Service.create(c);
 		
 		// Success
@@ -121,8 +119,13 @@ class MediumSelector implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request) {
-		List<Medium> mediums = MediumUtil.getListMedium();
-		throw new UnsupportedOperationException("Not supported yet.");
+		Client c = (Client) request.getSession().getAttribute("client");
+		if (c != null) {
+			List<Medium> mediums = MediumUtil.getListMedium();
+			request.setAttribute("mediums", mediums);
+		}
+		else
+			request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/inscription");
 	}
 	
 }

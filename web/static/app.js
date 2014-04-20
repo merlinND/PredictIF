@@ -30,6 +30,10 @@ $(document).ready(function(){
 	
 	// Submit horoscope creation
 	$('form#creer-horoscope').on('submit', creerHoroscope);
+	
+	// Add/remove a medium from selection
+	$(".choisir-medium").on('click', addMedium);
+	$(".retirer-medium").hide().on('click', removeMedium);
 });
 
 function fillClientInfosPopover() {
@@ -85,4 +89,24 @@ function creerHoroscope(e) {
 	});
 	
 	return false;
+}
+
+function getOption(e) {
+	var clicked = $(e.target),
+		attribute = clicked.parents('.details-medium').attr('id'),
+		matches = attribute.match(/medium-(\d+)/i);
+
+	if (matches !== null) {
+		var id = matches[1];
+		return $('#mediums-choisis').find('option[value="' + id + '"]');
+	}
+	return null;
+}
+function addMedium(e) {
+	getOption(e).prop('selected', true);
+	$(e.target).hide().siblings('.retirer-medium').show();
+}
+function removeMedium(e) {
+	getOption(e).prop('selected', false);
+	$(e.target).hide().siblings('.choisir-medium').show();
 }

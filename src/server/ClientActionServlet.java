@@ -22,12 +22,16 @@ public class ClientActionServlet extends ActionServlet {
 		routes.put("/index", null);
 		routes.put("/inscription", JSP_PREFIX + "/inscription.jsp");
 		routes.put("/inscription-traitement", null);
+		routes.put("/choix-medium", JSP_PREFIX + "/choix-medium.jsp");
+		routes.put("/choix-medium-traitement", null);
 		
 		actions = new HashMap<String, Action>();
 		actions.put("", new SignupRedirecter());
 		actions.put("/", new SignupRedirecter());
 		actions.put("/index", new SignupRedirecter());
 		actions.put("/inscription-traitement", new SignupHandler());
+		actions.put("/choix-medium", new MediumSelector());
+		actions.put("/choix-medium-traitement", new MediumSelectionHandler());
 		
 	}
 }
