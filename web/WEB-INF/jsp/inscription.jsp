@@ -11,9 +11,6 @@
 	
 	String message = (String)request.getAttribute("message");
 	String erreur = (String)request.getAttribute("erreur");
-	// Nettoyer les erreurs et messages
-	request.setAttribute("erreur", "");
-	request.setAttribute("message", "");
 %>
 <%@include file="head.jspf" %>
 
@@ -138,7 +135,5 @@
 				</div>
 			</div>
 		</form>
-				
-	</div>
 				
 <%@include file="footer.jspf" %>

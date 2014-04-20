@@ -29,6 +29,4 @@
 			${client.civilite} ${client.nom}, votre inscription a bien été prise en compte.
 		</div>
 				
-	</div>
-				
 <%@include file="footer.jspf" %>
