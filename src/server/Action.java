@@ -2,12 +2,12 @@
 package server;
 
 import dao.ClientUtil;
-import dao.EmployeUtil;
 import dao.HoroscopeUtil;
 import dao.MediumUtil;
 import dao.PredictionUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import metier.modele.Client;
+import static metier.modele.Client_.id;
 import metier.modele.Employe;
 import metier.modele.Horoscope;
 import metier.modele.Medium;
@@ -25,6 +26,7 @@ import metier.modele.prediction.Prediction;
 import metier.modele.prediction.Sante;
 import metier.modele.prediction.Travail;
 import metier.service.Service;
+import util.Aleatoire;
 
 /**
  *
@@ -149,15 +151,26 @@ class MediumSelectionHandler implements Action {
 		}
 		
 		String[] selection = request.getParameterValues("mediums-choisis");
+		List<Medium> mediums = new ArrayList<Medium>();
 		if (selection == null) {
 			// TODO: select random mediums for this client
-			throw new UnsupportedOperationException("Not supported yet.");
+			// Choose n random mediums for this client
+			int n = (int)Math.floor(Math.random() * 3) + 3;
+			List<Medium> all = MediumUtil.getListMedium();
+			List<Integer> indexes = Aleatoire.randomSubList(all.size(), n);
+			for (Integer index : indexes)
+				mediums.add(all.get(index));
+		}
+		else {
+			for (String s : selection) {
+				Long id = Long.decode(s);
+				Medium medium = MediumUtil.find(id);
+				mediums.add(medium);
+			}
 		}
 		
-		for (String s : selection) {
-			Long id = Long.decode(s);
-			Medium medium = MediumUtil.find(id);
-			c.addMedium(medium);
+		for(Medium m : mediums) {
+			c.addMedium(m);
 		}
 		Service.update(c);
 		
