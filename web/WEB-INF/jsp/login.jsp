@@ -19,7 +19,11 @@
 </c:if>
 
 <form action="<%=request.getAttribute("URL_PREFIX")%>/login" method="post" class="form-horizontal" role="form">
-	<div class="form-group">
+	<c:if test="${!empty erreur}">
+		<div class="alert alert-warning">${erreur}</div>
+	</c:if>
+	
+		<div class="form-group">
 		<label for="username" class="col-sm-2 control-label">E-mail</label>
 		<div class="col-sm-10">
 			<input type="text" name="username" class="form-control" placeholder="E-mail" required>
@@ -31,10 +35,6 @@
 			<input type="password" name="password" class="form-control" placeholder="Mot de passe">
 		</div>
 	</div>
-
-	<c:if test="${!empty erreur}">
-		<div class="alert alert-warning">${erreur}</div>
-	</c:if>
 	
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
