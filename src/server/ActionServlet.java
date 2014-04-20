@@ -17,10 +17,6 @@ import javax.servlet.http.HttpSession;
  * @author Merlin
  */
 public abstract class ActionServlet extends HttpServlet {
-
-	public static String URL_PREFIX;
-	public static String STATIC_PREFIX;
-	public static String JSP_PREFIX;
 	
 	public Map<String, String> routes;
 	public Map<String, Action> actions;
@@ -37,6 +33,15 @@ public abstract class ActionServlet extends HttpServlet {
 		JpaUtil.destroy();
 	}
 	
+	public abstract String getUrlPrefix();
+	
+	public String getStaticPrefix() {
+		return getUrlPrefix() + "/static";
+	}
+	public String getJspPrefix() {
+		return "../WEB-INF/jsp";
+	}
+	
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
 	 * methods.
@@ -51,15 +56,15 @@ public abstract class ActionServlet extends HttpServlet {
 		String uri = request.getRequestURI();
 
 		// Store useful constants
-		request.setAttribute("URL_PREFIX", URL_PREFIX);
+		request.setAttribute("URL_PREFIX", getUrlPrefix());
 		
 		// Extract session and request URI
 		HttpSession session = request.getSession();
-		uri = uri.substring(uri.indexOf(URL_PREFIX) + URL_PREFIX.length());
+		uri = uri.substring(uri.indexOf(getUrlPrefix()) + getUrlPrefix().length());
 		
 		// Execute action if existing
 		if (actions.containsKey(uri)) {
-			actions.get(uri).execute(request);
+			actions.get(uri).execute(request, getUrlPrefix());
 		}
 		
 		// Execute resulting forward if needed

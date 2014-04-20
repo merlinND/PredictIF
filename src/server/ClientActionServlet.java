@@ -11,20 +11,21 @@ import javax.servlet.annotation.WebServlet;
 @WebServlet(name = "ClientActionServlet", urlPatterns = {"/client/*"})
 public class ClientActionServlet extends ActionServlet {
 
+	@Override
+	public String getUrlPrefix() {
+		return "/PredictIF/client";
+	}
+	
 	public ClientActionServlet() {
-		URL_PREFIX = "/PredictIF/client";
-		STATIC_PREFIX = URL_PREFIX + "/static";
-		JSP_PREFIX = "../WEB-INF/jsp";
-		
 		routes = new HashMap<String, String>();
 		routes.put("", null);
 		routes.put("/", null);
 		routes.put("/index", null);
-		routes.put("/inscription", JSP_PREFIX + "/inscription.jsp");
+		routes.put("/inscription", getJspPrefix() + "/inscription.jsp");
 		routes.put("/inscription-traitement", null);
-		routes.put("/choix-medium", JSP_PREFIX + "/choix-medium.jsp");
+		routes.put("/choix-medium", getJspPrefix() + "/choix-medium.jsp");
 		routes.put("/choix-medium-traitement", null);
-		routes.put("/inscription-confirmation", JSP_PREFIX + "/inscription-confirmation.jsp");
+		routes.put("/inscription-confirmation", getJspPrefix() + "/inscription-confirmation.jsp");
 		
 		actions = new HashMap<String, Action>();
 		actions.put("", new SignupRedirecter());

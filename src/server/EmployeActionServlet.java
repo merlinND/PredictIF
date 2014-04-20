@@ -11,19 +11,20 @@ import javax.servlet.annotation.WebServlet;
 @WebServlet(name = "EmployeActionServlet", urlPatterns = {"/employe/*"})
 public class EmployeActionServlet extends ActionServlet {
 
+	@Override
+	public String getUrlPrefix() {
+		return "/PredictIF/employe";
+	}
+	
 	public EmployeActionServlet() {
-		URL_PREFIX = "/PredictIF/employe";
-		STATIC_PREFIX = URL_PREFIX + "/static";
-		JSP_PREFIX = "../WEB-INF/jsp";
-		
 		routes = new HashMap<String, String>();
 		routes.put("", null);
 		routes.put("/", null);
 		routes.put("/index", null);
-		routes.put("/login", JSP_PREFIX + "/login.jsp");
-		routes.put("/logout", JSP_PREFIX + "/login.jsp");
-		routes.put("/clients", JSP_PREFIX + "/clients.jsp");
-		routes.put("/horoscope", JSP_PREFIX + "/horoscope.jsp");
+		routes.put("/login", getJspPrefix() + "/login.jsp");
+		routes.put("/logout", getJspPrefix() + "/login.jsp");
+		routes.put("/clients", getJspPrefix() + "/clients.jsp");
+		routes.put("/horoscope", getJspPrefix() + "/horoscope.jsp");
 		routes.put("/horoscope-traitement", null);
 		
 		actions = new HashMap<String, Action>();

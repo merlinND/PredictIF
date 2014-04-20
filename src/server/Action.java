@@ -2,7 +2,6 @@
 package server;
 
 import dao.ClientUtil;
-import dao.EmployeUtil;
 import dao.HoroscopeUtil;
 import dao.MediumUtil;
 import dao.PredictionUtil;
@@ -18,7 +17,6 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import metier.modele.Client;
-import static metier.modele.Client_.id;
 import metier.modele.Employe;
 import metier.modele.Horoscope;
 import metier.modele.Medium;
@@ -37,13 +35,14 @@ public interface Action {
 	// TODO : injection de dépendance pour les services ?
 	//public void setService(Service service);
 	
-	public void execute(HttpServletRequest request);
+	public void execute(HttpServletRequest request, String urlPrefix);
 }
 
 class SignupRedirecter implements Action {
+	
 	@Override
-	public void execute(HttpServletRequest request) {
-		request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/inscription");
+	public void execute(HttpServletRequest request, String urlPrefix) {
+		request.setAttribute("redirect-to", urlPrefix + "/inscription");
 	}
 }
 
@@ -54,7 +53,7 @@ class SignupRedirecter implements Action {
 class SignupHandler implements Action {
 
 	@Override
-	public void execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, String urlPrefix) {
 		String required[] = {
 			"civilite",
 			"nom",
@@ -79,7 +78,7 @@ class SignupHandler implements Action {
 			else {
 				// Mising parameters
 				System.out.println("Missing parameter : " + key);
-				request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/inscription");
+				request.setAttribute("redirect-to", urlPrefix + "/inscription");
 				return;
 			}
 		}
@@ -121,7 +120,7 @@ class SignupHandler implements Action {
 		
 		// Success
 		request.getSession().setAttribute("client", c);
-		request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/choix-medium");
+		request.setAttribute("redirect-to", urlPrefix + "/choix-medium");
 	}
 	
 }
@@ -129,7 +128,7 @@ class SignupHandler implements Action {
 class MediumSelector implements Action {
 
 	@Override
-	public void execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, String urlPrefix) {
 		Client c = (Client) request.getSession().getAttribute("client");
 		if (c != null) {
 			List<Medium> mediums = MediumUtil.getListMedium();
@@ -140,7 +139,7 @@ class MediumSelector implements Action {
 			request.setAttribute("mediums", mediums);
 		}
 		else
-			request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/inscription");
+			request.setAttribute("redirect-to", urlPrefix + "/inscription");
 	}
 	
 }
@@ -148,10 +147,10 @@ class MediumSelector implements Action {
 class MediumSelectionHandler implements Action {
 
 	@Override
-	public void execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, String urlPrefix) {
 		Client c = (Client) request.getSession().getAttribute("client");
 		if (c == null) {
-			request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/inscription");
+			request.setAttribute("redirect-to", urlPrefix + "/inscription");
 			return;
 		}
 		
@@ -179,26 +178,26 @@ class MediumSelectionHandler implements Action {
 		}
 		Service.update(c);
 		
-		request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/inscription-confirmation");
+		request.setAttribute("redirect-to", urlPrefix + "/inscription-confirmation");
 	}
 	
 }
 
 class LoginRedirecter implements Action {
 	@Override
-	public void execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, String urlPrefix) {
 		Employe e = (Employe) request.getSession().getAttribute("employe");
 		if (e != null)
-			request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/clients");
+			request.setAttribute("redirect-to", urlPrefix + "/clients");
 		else
-			request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/login");
+			request.setAttribute("redirect-to", urlPrefix + "/login");
 	}
 }
 
 class LoginHandler implements Action {
 
 	@Override
-	public void execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, String urlPrefix) {
 		HttpSession session = request.getSession();
 		session.setAttribute("employe", null);
 		request.setAttribute("erreur", "");
@@ -214,7 +213,7 @@ class LoginHandler implements Action {
 				List<Client> clients = employe.getListClient();
 				
 				session.setAttribute("employe", employe);
-				request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/clients");
+				request.setAttribute("redirect-to", urlPrefix + "/clients");
 			}
 			else {
 				// Échec
@@ -227,7 +226,7 @@ class LoginHandler implements Action {
 class LogoutHandler implements Action {
 
 	@Override
-	public void execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, String urlPrefix) {
 		HttpSession session = request.getSession();
 		session.setAttribute("employe", null);
 		request.setAttribute("erreur", "");
@@ -238,7 +237,7 @@ class LogoutHandler implements Action {
 class ClientLister implements Action {
 
 	@Override
-	public void execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, String urlPrefix) {
 		Employe e = (Employe) request.getSession().getAttribute("employe");
 		if (e != null) {
 			List<Client> result = new ArrayList<Client>(),
@@ -265,7 +264,7 @@ class ClientLister implements Action {
 		}
 		
 		// Error cases (mising parameters)
-		request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/login");
+		request.setAttribute("redirect-to", urlPrefix + "/login");
 		return;
 	}
 	
@@ -274,7 +273,7 @@ class ClientLister implements Action {
 class HoroscopeCreater implements Action {
 
 	@Override
-	public void execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, String urlPrefix) {
 		Employe e = (Employe) request.getSession().getAttribute("employe");
 		if (e != null) {
 			String clientIdString = request.getParameter("clientId");
@@ -316,11 +315,11 @@ class HoroscopeCreater implements Action {
 				}
 			}
 			// Error cases (mising parameters)
-			request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/clients");
+			request.setAttribute("redirect-to", urlPrefix + "/clients");
 			return;
 		}
 		else {
-			request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/login");
+			request.setAttribute("redirect-to", urlPrefix + "/login");
 			return;
 		}
 	}
@@ -334,7 +333,7 @@ class HoroscopeCreater implements Action {
 class HoroscopeHandler implements Action {
 
 	@Override
-	public void execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, String urlPrefix) {
 		String required[] = {
 			"clientId",
 			"prediction-travail",
@@ -352,7 +351,7 @@ class HoroscopeHandler implements Action {
 			else {
 				// Mising parameters
 				System.out.println("Missing parameter : " + key);
-				request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/clients");
+				request.setAttribute("redirect-to", urlPrefix + "/clients");
 				return;
 			}
 		}
@@ -380,7 +379,7 @@ class HoroscopeHandler implements Action {
 		}
 		
 		// Error cases (IDs not found)
-		request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/clients");
+		request.setAttribute("redirect-to", urlPrefix + "/clients");
 		return;
 	}
 	
