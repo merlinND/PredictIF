@@ -127,7 +127,13 @@ function creerHoroscope(e) {
 		'method': 'post',
 		'data': form.serialize(),
 		'success': function(html) {
-			form.empty().html('<div class="success">L\'horoscope a bien été créé !</div>');
+			var confirm = '<div class="success">'
+				+ '<p>L\'horoscope a bien été créé !</p>'
+				+ '<a href="clients">'
+					+ '<button class="btn btn-info" type="button">Autres clients</button>'
+				+ '</a>'
+			+ '</div>';
+			form.empty().html(confirm);
 		},
 		'error': function(code) {
 			alert(code);
