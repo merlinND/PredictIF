@@ -24,6 +24,7 @@ public class ClientActionServlet extends ActionServlet {
 		routes.put("/inscription-traitement", null);
 		routes.put("/choix-medium", JSP_PREFIX + "/choix-medium.jsp");
 		routes.put("/choix-medium-traitement", null);
+		routes.put("/inscription-confirmation", JSP_PREFIX + "/inscription-confirmation.jsp");
 		
 		actions = new HashMap<String, Action>();
 		actions.put("", new SignupRedirecter());
