@@ -32,9 +32,6 @@ import util.Aleatoire;
  * @author Merlin
  */
 public interface Action {
-	// TODO : injection de dépendance pour les services ?
-	//public void setService(Service service);
-	
 	public void execute(HttpServletRequest request, String urlPrefix);
 }
 
@@ -157,7 +154,6 @@ class MediumSelectionHandler implements Action {
 		String[] selection = request.getParameterValues("mediums-choisis");
 		List<Medium> mediums = new ArrayList<Medium>();
 		if (selection == null) {
-			// TODO: select random mediums for this client
 			// Choose n random mediums for this client
 			int n = (int)Math.floor(Math.random() * 3) + 3;
 			List<Medium> all = MediumUtil.getListMedium();
