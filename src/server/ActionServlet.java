@@ -16,40 +16,14 @@ import javax.servlet.http.HttpSession;
  *
  * @author Merlin
  */
-@WebServlet(name = "ActionServlet", urlPatterns = {"/employe/*"})
-public class ActionServlet extends HttpServlet {
+public abstract class ActionServlet extends HttpServlet {
 
-	public static final String URL_PREFIX = "/PredictIF/employe";
-	public static final String STATIC_PREFIX = URL_PREFIX + "/static";
-	public static final String JSP_PREFIX = "../WEB-INF/jsp";
+	public static String URL_PREFIX;
+	public static String STATIC_PREFIX;
+	public static String JSP_PREFIX;
 	
 	public Map<String, String> routes;
 	public Map<String, Action> actions;
-
-	public ActionServlet() {
-		routes = new HashMap<String, String>();
-		routes.put("", null);
-		routes.put("/", null);
-		routes.put("/index", null);
-		routes.put("/login", JSP_PREFIX + "/login.jsp");
-		routes.put("/logout", JSP_PREFIX + "/login.jsp");
-		routes.put("/clients", JSP_PREFIX + "/clients.jsp");
-		routes.put("/horoscope", JSP_PREFIX + "/horoscope.jsp");
-		routes.put("/horoscope-traitement", null);
-		
-		// TODO: require login on most pages
-		
-		actions = new HashMap<String, Action>();
-		actions.put("", new LoginRedirecter());
-		actions.put("/", new LoginRedirecter());
-		actions.put("/index", new LoginRedirecter());
-		actions.put("/login", new LoginHandler());
-		actions.put("/logout", new LogoutHandler());
-		actions.put("/clients", new ClientLister());
-		actions.put("/horoscope", new HoroscopeCreater());
-		actions.put("/horoscope-traitement", new HoroscopeHandler());
-		
-	}
 
 	@Override
 	public void init() throws ServletException {
