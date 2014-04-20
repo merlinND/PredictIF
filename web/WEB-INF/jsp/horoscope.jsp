@@ -124,7 +124,7 @@
 	<div class="row">
 		<section class="panel panel-default">
 			<div class="panel-heading">
-				<h3>Nouvel horoscope (TODO: ne montrer que les prédictions non-utilisées ?)</h3>
+				<h3>Nouvel horoscope</h3>
 			</div>
 			<div class="panel-body">
 

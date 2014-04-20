@@ -133,6 +133,10 @@ class MediumSelector implements Action {
 		Client c = (Client) request.getSession().getAttribute("client");
 		if (c != null) {
 			List<Medium> mediums = MediumUtil.getListMedium();
+			
+			// Pre-select some mediums
+			
+			
 			request.setAttribute("mediums", mediums);
 		}
 		else
@@ -285,10 +289,26 @@ class HoroscopeCreater implements Action {
 						request.setAttribute("horoscopes", HoroscopeUtil.getListHoroFromClient(c));
 
 						Map<String, List<Prediction>> predictions = new HashMap<String, List<Prediction>>();
-						// TODO: list only predictions that were not used previously?
-						predictions.put("travail", PredictionUtil.getListTravail());
-						predictions.put("amour", PredictionUtil.getListAmour());
-						predictions.put("sante", PredictionUtil.getListSante());
+						
+						// List in priority predictions that were not used previously
+						List<Prediction> travail = PredictionUtil.getListTravail(),
+										amour = PredictionUtil.getListAmour(),
+										sante = PredictionUtil.getListSante(),
+										usedTravail = HoroscopeUtil.getUsedListTravail(c),
+										usedAmour = HoroscopeUtil.getUsedListAmour(c),
+										usedSante = HoroscopeUtil.getUsedListSante(c);
+										
+						
+						travail.removeAll(usedTravail);
+						travail.addAll(usedTravail);
+						amour.removeAll(usedAmour);
+						amour.addAll(usedAmour);
+						sante.removeAll(usedSante);
+						sante.addAll(usedSante);
+
+						predictions.put("travail", travail);
+						predictions.put("amour", amour);
+						predictions.put("sante", sante);
 						request.setAttribute("predictions", predictions);
 						
 						return;
