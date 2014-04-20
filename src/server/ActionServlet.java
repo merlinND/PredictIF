@@ -28,9 +28,9 @@ public class ActionServlet extends HttpServlet {
 
 	public ActionServlet() {
 		routes = new HashMap<String, String>();
-		routes.put("", JSP_PREFIX + "/index.jsp");
-		routes.put("/",JSP_PREFIX + "/index.jsp");
-		routes.put("/index", JSP_PREFIX + "/index.jsp");
+		routes.put("", null);
+		routes.put("/", null);
+		routes.put("/index", null);
 		routes.put("/login", JSP_PREFIX + "/login.jsp");
 		routes.put("/logout", JSP_PREFIX + "/login.jsp");
 		routes.put("/clients", JSP_PREFIX + "/clients.jsp");
@@ -40,6 +40,9 @@ public class ActionServlet extends HttpServlet {
 		// TODO: require login on most pages
 		
 		actions = new HashMap<String, Action>();
+		actions.put("", new LoginRedirecter());
+		actions.put("/", new LoginRedirecter());
+		actions.put("/index", new LoginRedirecter());
 		actions.put("/login", new LoginHandler());
 		actions.put("/logout", new LogoutHandler());
 		actions.put("/clients", new ClientLister());

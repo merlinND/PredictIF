@@ -31,6 +31,19 @@ public interface Action {
 	public void execute(HttpServletRequest request);
 }
 
+class LoginRedirecter implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request) {
+		Employe e = (Employe) request.getSession().getAttribute("employe");
+		if (e != null)
+			request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+		else
+			request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/login");
+	}
+	
+}
+
 class LoginHandler implements Action {
 
 	@Override
@@ -94,30 +107,37 @@ class HoroscopeCreater implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request) {
-		String clientIdString = request.getParameter("clientId");
-		if (clientIdString != null) {
-			Long clientId = Long.decode(clientIdString);
-		
-			if (clientId != null) {
-				Client c = ClientUtil.find(clientId);
-				if (c != null) {
-					request.setAttribute("client", c);
-					request.setAttribute("mediums", c.getMediumsFavoris());
-					request.setAttribute("horoscopes", HoroscopeUtil.getListHoroFromClient(c));
-					
-					Map<String, List<Prediction>> predictions = new HashMap<String, List<Prediction>>();
-					predictions.put("travail", PredictionUtil.getListTravail());
-					predictions.put("amour", PredictionUtil.getListAmour());
-					predictions.put("sante", PredictionUtil.getListSante());
-					request.setAttribute("predictions", predictions);
-					
-					return;
+		Employe e = (Employe) request.getSession().getAttribute("employe");
+		if (e != null) {
+			String clientIdString = request.getParameter("clientId");
+			if (clientIdString != null) {
+				Long clientId = Long.decode(clientIdString);
+
+				if (clientId != null) {
+					Client c = ClientUtil.find(clientId);
+					if (c != null) {
+						request.setAttribute("client", c);
+						request.setAttribute("mediums", c.getMediumsFavoris());
+						request.setAttribute("horoscopes", HoroscopeUtil.getListHoroFromClient(c));
+
+						Map<String, List<Prediction>> predictions = new HashMap<String, List<Prediction>>();
+						predictions.put("travail", PredictionUtil.getListTravail());
+						predictions.put("amour", PredictionUtil.getListAmour());
+						predictions.put("sante", PredictionUtil.getListSante());
+						request.setAttribute("predictions", predictions);
+
+						return;
+					}
 				}
 			}
+			// Error cases (mising parameters)
+			request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+			return;
 		}
-		// Error cases (mising parameters)
-		request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
-		return;
+		else {
+			request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/login");
+			return;
+		}
 	}
 	
 }
