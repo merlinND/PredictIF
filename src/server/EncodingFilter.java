@@ -54,10 +54,6 @@ public class EncodingFilter implements Filter {
 			FilterChain chain)
 			throws IOException, ServletException {
 		
-		if (debug) {
-			log("EncodingFilter:doFilter()");
-		}
-		
 		doBeforeProcessing(request, response);
 		
 		Throwable problem = null;
@@ -115,9 +111,6 @@ public class EncodingFilter implements Filter {
 	public void init(FilterConfig filterConfig) {		
 		this.filterConfig = filterConfig;
 		if (filterConfig != null) {
-			if (debug) {				
-				log("EncodingFilter:Initializing filter");
-			}
 		}
 	}
 

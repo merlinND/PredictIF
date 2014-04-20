@@ -23,9 +23,9 @@
 
 <form action="<%=request.getAttribute("URL_PREFIX")%>/login" method="post" class="form-horizontal" role="form">
 	<div class="form-group">
-		<label for="username" class="col-sm-2 control-label">Nom d'utilisateur</label>
+		<label for="username" class="col-sm-2 control-label">E-mail</label>
 		<div class="col-sm-10">
-			<input type="text" name="username" class="form-control" placeholder="Nom d'utilisateur">
+			<input type="text" name="username" class="form-control" placeholder="E-mail" required>
 		</div>
 	</div>
 	<div class="form-group">

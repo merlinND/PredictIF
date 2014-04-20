@@ -2,6 +2,7 @@
 package server;
 
 import dao.ClientUtil;
+import dao.EmployeUtil;
 import dao.HoroscopeUtil;
 import dao.MediumUtil;
 import dao.PredictionUtil;
@@ -75,7 +76,7 @@ class SignupHandler implements Action {
 			else {
 				// Mising parameters
 				System.out.println("Missing parameter : " + key);
-				request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/inscription");
+				request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/inscription");
 				return;
 			}
 		}
@@ -106,7 +107,14 @@ class SignupHandler implements Action {
 			System.out.println(Service.generateEmailForPartenaires(c));
 		}
 		
+		// Create client
 		Service.create(c);
+		
+		// Assign client to least busy employee
+		Employe e = Service.affecterEmployeReferentAuClient(c);
+		
+		System.out.println("Le nouveau client " + c.getNom() + " a été affecté à l'employé :");
+		System.out.println("> " + e.getPrenom() + " " + e.getNom() + " (" + e.getEmail() + ")");
 		
 		// Success
 		request.getSession().setAttribute("client", c);
@@ -134,7 +142,26 @@ class MediumSelectionHandler implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		Client c = (Client) request.getSession().getAttribute("client");
+		if (c == null) {
+			request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/inscription");
+			return;
+		}
+		
+		String[] selection = request.getParameterValues("mediums-choisis");
+		if (selection == null) {
+			// TODO: select random mediums for this client
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+		
+		for (String s : selection) {
+			Long id = Long.decode(s);
+			Medium medium = MediumUtil.find(id);
+			c.addMedium(medium);
+		}
+		Service.update(c);
+		
+		request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/inscription-confirmation");
 	}
 	
 }
@@ -189,7 +216,6 @@ class LogoutHandler implements Action {
 		request.setAttribute("message", "Vous avez été déconnecté avec succès.");
 	}
 }
-
 
 class ClientLister implements Action {
 
