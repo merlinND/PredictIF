@@ -13,6 +13,11 @@ $(document).ready(function(){
 	$("#filtre-client").on('keyup', function(e) {
 		filterSet($(".liste-clients li"), "nom", $(this).val());
 	});
+	// Select order
+	$("#ordre-client").on('change', function(e) {
+		var container = $(".liste-clients:first");
+		orderSetBy(container.find("li"), $(this).val(), container);
+	});
 	
 	$('select.choix-horoscope').on('change', function(e){
 		showDetailsSelect($(e.target), 'horoscope');
@@ -60,6 +65,20 @@ function filterSet(set, field, value) {
 			$(el).show();
 		else
 			$(el).hide();
+	});
+}
+
+function orderSetBy(set, field, container) {
+	set.detach();
+	set.sort(function(a, b) {
+		var val1 = $(a).find('.' + field).text().trim().toLowerCase(),
+			val2 = $(b).find('.' + field).text().trim().toLowerCase();
+		if (!isNaN(val1) && !isNaN(val2))
+			return (parseInt(val1) - parseInt(val2));
+		else
+			return val1.localeCompare(val2);
+	}).each(function(i, el) {
+		container.append(el);
 	});
 }
 

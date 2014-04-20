@@ -23,7 +23,6 @@
 <%@include file="header.jspf" %>
 
 <h2>Choisissez un client à traiter</h2>
-TODO: montrer en premier les clients non-traités + tri personnalisable
 
 <!-- Liste des clients -->
 <section class="col-xs-12">
@@ -32,7 +31,7 @@ TODO: montrer en premier les clients non-traités + tri personnalisable
 			<input type="text" name="filtre-client" id="filtre-client" placeholder="Filtrer" class="form-control">
 		</div>
 		<div class="col-xs-4">
-			<select class="form-control">
+			<select class="form-control" name="ordre-client" id="ordre-client">
 				<option value="ordre-priorite">Ordre de priorité</option>
 				<option value="nom">Ordre alphabétique</option>
 			</select>
@@ -40,12 +39,12 @@ TODO: montrer en premier les clients non-traités + tri personnalisable
 	</div>
 	
 	<ul class="liste-clients list-group" style="margin-top:15px">
-		<c:forEach items="${clients}" var="client">
+		<c:forEach items="${clients}" var="client" varStatus="status">
 			<li class="list-group-item">
 				<a href="#client-${client.id}" data-container="body" data-toggle="popover" data-placement="right" data-content="" class="nom">
 					${client.nom} ${client.prenom}
 				</a>
-				<span class="hidden ordre-priorite">TODO : ordre de priorité</span>
+				<span class="hidden ordre-priorite">${status.index}</span>
 			</li>
 		</c:forEach>
 	</ul>
