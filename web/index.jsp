@@ -3,18 +3,37 @@
     Created on : Mar 31, 2014, 5:33:36 PM
     Author     : Merlin
 --%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-	request.setAttribute("title", "Accueil");
+	request.setAttribute("title", "Acceuil");
 %>
 <%@include file="WEB-INF/jsp/head.jspf" %>
 
-	<h2>Hello index!</h2>
+		<div class="container-fluid">
+			<!-- Header -->
+			<div class="jumbotron">
+				<h1>
+					<a href="/PredictIF/">Predict'IF</a>
+					<small>Pour un avenir serein</small>
+				</h1>
+				
+				<div class="col-sm-8 col-sm-push-2">
+					<img src="/PredictIF/static/star-trails.jpg" alt="Predict'IF" class="img-responsive img-rounded">
+					
+					<div class="button-holder">
+						<a href="client/" class="btn btn-primary btn-lg">Enregistrement client</a>
+					</div>
+				</div>
+				
+				<div class="clearfix"></div>
+			</div>
+			
 
-	<p>
-		<a href="client/">Enregistrement client</a>
-	</p>
-	<p>
-		<a href="employe/">Connexion employ�s</a>
-	</p>
+			<footer>
+				<a href="employe/" class="btn btn-default btn-xs">Connexion employés</a>
+				<p>© Predict'IF 2014</p>
+			</footer>
 
-<%@include file="WEB-INF/jsp/footer.jspf" %>
+		</div> <!-- end .container-fluid -->
+	</body>
+</html>
