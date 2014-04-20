@@ -26,8 +26,6 @@ public class EmployeActionServlet extends ActionServlet {
 		routes.put("/horoscope", JSP_PREFIX + "/horoscope.jsp");
 		routes.put("/horoscope-traitement", null);
 		
-		// TODO: require login on most pages
-		
 		actions = new HashMap<String, Action>();
 		actions.put("", new LoginRedirecter());
 		actions.put("/", new LoginRedirecter());

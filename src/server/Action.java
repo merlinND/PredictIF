@@ -31,17 +31,31 @@ public interface Action {
 	public void execute(HttpServletRequest request);
 }
 
-class LoginRedirecter implements Action {
+class SignupRedirecter implements Action {
+	@Override
+	public void execute(HttpServletRequest request) {
+		request.setAttribute("redirect-to", ClientActionServlet.URL_PREFIX + "/inscription");
+	}
+}
 
+class SignupHandler implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+	
+}
+
+class LoginRedirecter implements Action {
 	@Override
 	public void execute(HttpServletRequest request) {
 		Employe e = (Employe) request.getSession().getAttribute("employe");
 		if (e != null)
-			request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+			request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/clients");
 		else
-			request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/login");
+			request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/login");
 	}
-	
 }
 
 class LoginHandler implements Action {
@@ -63,7 +77,7 @@ class LoginHandler implements Action {
 				List<Client> clients = employe.getListClient();
 				
 				session.setAttribute("employe", employe);
-				request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+				request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/clients");
 			}
 			else {
 				// Échec
@@ -97,7 +111,7 @@ class ClientLister implements Action {
 		}
 		
 		// Error cases (mising parameters)
-		request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/login");
+		request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/login");
 		return;
 	}
 	
@@ -131,11 +145,11 @@ class HoroscopeCreater implements Action {
 				}
 			}
 			// Error cases (mising parameters)
-			request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+			request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/clients");
 			return;
 		}
 		else {
-			request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/login");
+			request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/login");
 			return;
 		}
 	}
@@ -167,7 +181,7 @@ class HoroscopeHandler implements Action {
 			else {
 				// Mising parameters
 				System.out.println("Missing parameter : " + key);
-				request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+				request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/clients");
 				return;
 			}
 		}
@@ -193,7 +207,7 @@ class HoroscopeHandler implements Action {
 		}
 		
 		// Error cases (IDs not found)
-		request.setAttribute("redirect-to", ActionServlet.URL_PREFIX + "/clients");
+		request.setAttribute("redirect-to", EmployeActionServlet.URL_PREFIX + "/clients");
 		return;
 	}
 	
