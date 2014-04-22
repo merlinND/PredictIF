@@ -5,9 +5,9 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-	request.setAttribute("title", "Acceuil");
+	request.setAttribute("title", "Accueil");
 %>
-<%@include file="WEB-INF/jsp/head.jspf" %>
+<%@include file="head.jspf" %>
 
 		<div class="container-fluid">
 			<!-- Header -->
